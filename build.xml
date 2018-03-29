@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="docker-amiga-gcc" default="build">
+    <target name="clean">
+        <delete dir="${basedir}/test"/>
+    </target>
+
+    <target name="build">
+        <exec executable="docker" taskname="docker">
+            <arg value="build"/>
+            <arg value="--pull"/>
+            <arg value="--tag"/>
+            <arg value="sebastianbergmann/amiga-gcc:latest"/>
+            <arg path="${basedir}"/>
+        </exec>
+    </target>
+
+    <target name="test" depends="build">
+        <mkdir dir="${basedir}/test"/>
+
+        <get src="https://raw.githubusercontent.com/Sakura-IT/Amiga-programming-examples/master/C/hello-world-amiga/hello.c"
+             dest="${basedir}/test/hello.c"
+             skipexisting="true"/>
+
+        <exec executable="docker" taskname="docker">
+            <arg value="run"/>
+            <arg value="--rm"/>
+            <arg value="--volume"/>
+            <arg value="${basedir}/test:/host"/>
+            <arg value="sebastianbergmann/amiga-gcc:latest"/>
+            <arg value="m68k-amigaos-gcc"/>
+            <arg value="/host/hello.c"/>
+            <arg value="-o"/>
+            <arg value="/host/hello"/>
+            <arg value="-noixemul"/>
+        </exec>
+
+        <exec executable="docker" taskname="docker" outputproperty="hello.c">
+            <arg value="run"/>
+            <arg value="--rm"/>
+            <arg value="--volume"/>
+            <arg value="${basedir}/test:/host"/>
+            <arg value="sebastianbergmann/amitools:latest"/>
+            <arg value="vamos"/>
+            <arg value="-C"/>
+            <arg value="68020"/>
+            <arg value="/host/hello"/>
+        </exec>
+
+        <fail message="hello.c could not be compiled and executed">
+            <condition>
+                <not>
+                    <equals arg1="${hello.c}" arg2="Hello world!"/>
+                </not>
+            </condition>
+        </fail>
+
+        <delete file="${basedir}/test/hello"/>
+    </target>
+</project>
+
