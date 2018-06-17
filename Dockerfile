@@ -2,6 +2,7 @@ FROM ubuntu:18.04
 
 RUN apt-get update && apt-get install -y \
     autoconf \
+    bison \
     flex \
     g++ \
     gcc \
@@ -22,7 +23,7 @@ RUN apt-get update && apt-get install -y \
     cd /root && \
     git clone https://github.com/bebbo/amiga-gcc.git && \
     cd /root/amiga-gcc && \
-    git checkout -qf 8622b1fe4bca17955dae00c825b4db11ec89c36f && \
+    git checkout -qf b9509825c0e887d5e8ab026e8665e9f8159c9b3c && \
     mkdir -p /opt/amiga && \
     make update && \
     make all && \
@@ -30,6 +31,7 @@ RUN apt-get update && apt-get install -y \
     rm -rf /root/amiga-gcc && \
     apt-get purge -y \
     autoconf \
+    bison \
     flex \
     g++ \
     gcc \
