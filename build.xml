@@ -41,6 +41,7 @@
             <arg value="${basedir}/test:/host"/>
             <arg value="sebastianbergmann/amitools:latest"/>
             <arg value="vamos"/>
+            <arg value="--quiet"/>
             <arg value="--cpu"/>
             <arg value="68020"/>
             <arg value="/host/hello"/>
