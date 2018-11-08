@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
     libmpfr-dev \
     libmpc3 \
     libmpc-dev \
+    libncurses-dev \
     make \
     rsync \
     texinfo\
@@ -23,7 +24,7 @@ RUN apt-get update && apt-get install -y \
     cd /root && \
     git clone https://github.com/bebbo/amiga-gcc.git && \
     cd /root/amiga-gcc && \
-    git checkout -qf a2579872932066e31faec3ccfeff75a663faa75a && \
+    git checkout -qf 4117fbca35aa061b0b74dd83bf0179273650f29f && \
     mkdir -p /opt/amiga && \
     make update && \
     make all && \
@@ -41,6 +42,7 @@ RUN apt-get update && apt-get install -y \
     libgmp-dev \
     libmpfr-dev \
     libmpc-dev \
+    libncurses-dev \
     make \
     rsync \
     texinfo\
