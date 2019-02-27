@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y \
     cd /root && \
     git clone https://github.com/bebbo/amiga-gcc.git && \
     cd /root/amiga-gcc && \
-    git checkout -qf 8b0c4d6b50b77e9661bb7bdb0671792c307c876e && \
+    git checkout -qf 33b0533073467433d45bd412faa9c62a2f7a1b9b && \
     mkdir -p /opt/amiga && \
     make update && \
     make all && \
