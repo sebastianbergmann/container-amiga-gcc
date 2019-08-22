@@ -27,7 +27,7 @@ RUN apt-get update && apt-get install -y \
     git checkout -qf 3f93d9f2aa9f3d6856c812340250398203cd591c && \
     mkdir -p /opt/amiga && \
     make update && \
-    make all && \
+    make -j4 all && \
     cd / && \
     rm -rf /root/amiga-gcc && \
     apt-get purge -y \
