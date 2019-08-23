@@ -15,7 +15,7 @@
         </exec>
     </target>
 
-    <target name="test" depends="build">
+    <target name="test">
         <mkdir dir="${basedir}/test"/>
 
         <get src="https://raw.githubusercontent.com/Sakura-IT/Amiga-programming-examples/master/C/hello-world-amiga/hello.c"
