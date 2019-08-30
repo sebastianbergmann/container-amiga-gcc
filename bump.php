@@ -9,18 +9,41 @@ file_put_contents(
     str_replace($old, $new, $tmp)
 );
 
-$old = '';
+$repositories = [
+    'adtools/sfdc',
+    'AmigaPorts/libSDL12',
+    'bebbo/amiga-netinclude',
+    'bebbo/aros-stuff',
+    'bebbo/binutils-gdb',
+    'bebbo/clib2',
+    'bebbo/fd2pragma',
+    'bebbo/gcc',
+    'bebbo/ira',
+    'bebbo/ixemul',
+    'bebbo/libdebug',
+    'bebbo/libnix',
+    'bebbo/newlib-cygwin',
+    'bebbo/vbcc',
+    'cahirwpz/fd2sfd',
+    'jca02266/lha',
+    'leffmann/vasm',
+    'leffmann/vlink',
+];
 
-if (file_exists(__DIR__ . '/gcc-latest-commit')) {
-    $old = trim(file_get_contents(__DIR__ . '/gcc-latest-commit'));
+foreach ($repositories as $repository) {
+    $file = __DIR__ . '/.revisions/' . $repository;
+    $old  = trim(file_get_contents($file)); 
+
+    $new = trim(
+        shell_exec(
+            'git ls-remote https://github.com/' . $repository . '.git | grep HEAD | awk \'{ print $1}\''
+        )
+    );
+
+    if ($old !== $new) {
+        print $repository . ' has new commits' . PHP_EOL;
+
+        file_put_contents($file, $new);
+    }
 }
-
-$new = trim(`git ls-remote https://github.com/bebbo/gcc.git | grep HEAD | awk '{ print $1}'`);
-
-if ($old !== $new) {
-    print 'https://github.com/bebbo/gcc.git has new commits' . PHP_EOL;
-
-    file_put_contents(__DIR__ . '/gcc-latest-commit', $new);
-}
-
 
