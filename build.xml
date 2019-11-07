@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="docker-amiga-gcc" default="build">
+    <!-- Set this to "docker" if you have/want to use Docker instead of Podman -->
+    <property name="docker-command" value="podman"/>
+
     <target name="clean">
         <delete dir="${basedir}/test"/>
     </target>
 
     <target name="build">
-        <exec executable="docker" taskname="docker">
+        <exec executable="${docker-command}" taskname="docker">
             <arg value="build"/>
             <arg value="--pull"/>
             <arg value="--no-cache"/>
@@ -18,7 +21,7 @@
     <target name="test">
         <mkdir dir="${basedir}/test"/>
 
-        <exec executable="docker" taskname="docker">
+        <exec executable="${docker-command}" taskname="docker">
             <arg value="run"/>
             <arg value="--rm"/>
             <arg value="--volume"/>
@@ -31,7 +34,7 @@
             <arg value="-noixemul"/>
         </exec>
 
-        <exec executable="docker" taskname="docker" outputproperty="hello.c">
+        <exec executable="${docker-command}" taskname="docker" outputproperty="hello.c">
             <arg value="run"/>
             <arg value="--rm"/>
             <arg value="--volume"/>
