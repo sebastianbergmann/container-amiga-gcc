@@ -8,7 +8,7 @@
     </target>
 
     <target name="build">
-        <exec executable="${docker-command}" taskname="docker">
+        <exec executable="${docker-command}" taskname="image-build">
             <arg value="build"/>
             <arg value="--pull"/>
             <arg value="--no-cache"/>
@@ -21,7 +21,7 @@
     <target name="test">
         <mkdir dir="${basedir}/test"/>
 
-        <exec executable="${docker-command}" taskname="docker">
+        <exec executable="${docker-command}" taskname="test-compile">
             <arg value="run"/>
             <arg value="--rm"/>
             <arg value="--volume"/>
@@ -34,7 +34,7 @@
             <arg value="-noixemul"/>
         </exec>
 
-        <exec executable="${docker-command}" taskname="docker" outputproperty="hello.c">
+        <exec executable="${docker-command}" taskname="test-execute" outputproperty="hello.c">
             <arg value="run"/>
             <arg value="--rm"/>
             <arg value="--volume"/>
