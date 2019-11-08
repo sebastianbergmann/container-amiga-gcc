@@ -3,6 +3,8 @@
     <!-- Set this to "docker" if you have/want to use Docker instead of Podman -->
     <property name="docker-command" value="podman"/>
 
+    <property name="test-directory" value="/tmp/docker-amiga-gcc-test"/>
+
     <target name="build">
         <exec executable="${docker-command}" taskname="image-build">
             <arg value="build"/>
@@ -15,14 +17,14 @@
     </target>
 
     <target name="test">
-        <mkdir dir="/tmp/docker-amiga-gcc-test"/>
-        <copy file="${basedir}/test/hello.c" todir="/tmp/docker-amiga-gcc-test"/>
+        <mkdir dir="${test-directory}"/>
+        <copy file="${basedir}/test/hello.c" todir="${test-directory}"/>
 
         <exec executable="${docker-command}" taskname="test-compile">
             <arg value="run"/>
             <arg value="--rm"/>
             <arg value="--volume"/>
-            <arg value="/tmp/docker-amiga-gcc-test:/host:Z"/>
+            <arg value="${test-directory}:/host:Z"/>
             <arg value="sebastianbergmann/amiga-gcc:latest"/>
             <arg value="m68k-amigaos-gcc"/>
             <arg value="/host/hello.c"/>
@@ -35,13 +37,13 @@
             <arg value="run"/>
             <arg value="--rm"/>
             <arg value="--volume"/>
-            <arg value="/tmp/docker-amiga-gcc-test:/host:Z"/>
+            <arg value="${test-directory}:/host:Z"/>
             <arg value="sebastianbergmann/amitools:latest"/>
             <arg value="vamos"/>
             <arg value="/host/hello"/>
         </exec>
 
-        <delete dir="/tmp/docker-amiga-gcc-test"/>
+        <delete dir="${test-directory}"/>
 
         <fail message="hello.c could not be compiled and executed">
             <condition>
