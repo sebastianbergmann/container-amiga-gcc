@@ -3,10 +3,6 @@
     <!-- Set this to "docker" if you have/want to use Docker instead of Podman -->
     <property name="docker-command" value="podman"/>
 
-    <target name="clean">
-        <delete dir="${basedir}/test"/>
-    </target>
-
     <target name="build">
         <exec executable="${docker-command}" taskname="image-build">
             <arg value="build"/>
