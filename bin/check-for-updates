@@ -1,25 +1,25 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 $repositories = [
-    'adtools/sfdc',
-    'AmigaPorts/libSDL12',
     'bebbo/amiga-gcc',
     'bebbo/amiga-netinclude',
-    'bebbo/aros-stuff',
     'bebbo/binutils-gdb',
     'bebbo/clib2',
     'bebbo/fd2pragma',
+    'cahirwpz/fd2sfd',
     'bebbo/gcc',
     'bebbo/ira',
     'bebbo/ixemul',
+    'jca02266/lha',
     'bebbo/libdebug',
     'bebbo/libnix',
+    'AmigaPorts/libSDL12',
     'bebbo/newlib-cygwin',
-    'bebbo/vbcc',
-    'cahirwpz/fd2sfd',
-    'jca02266/lha',
+    'adtools/sfdc',
     'leffmann/vasm',
+    'bebbo/vbcc',
     'leffmann/vlink',
+    'bebbo/aros-stuff',
 ];
 
 foreach ($repositories as $repository) {
