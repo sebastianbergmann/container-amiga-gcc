@@ -23,6 +23,8 @@ $repositories = [
 ];
 
 foreach ($repositories as $repository) {
+    print 'Checking ' . $repository . ' ... ';
+
     $file = __DIR__ . '/.revisions/' . $repository;
     $old  = trim(file_get_contents($file)); 
 
@@ -33,9 +35,11 @@ foreach ($repositories as $repository) {
     );
 
     if ($old !== $new) {
-        print $repository . ' has new commits' . PHP_EOL;
-
         file_put_contents($file, $new);
+
+        print 'updated' . PHP_EOL;
+    } else {
+        print 'not updated' . PHP_EOL;
     }
 }
 
