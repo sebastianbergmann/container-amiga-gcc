@@ -23,6 +23,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     texinfo\
     wget \
     && rm -rf /var/lib/apt/lists/* && \
+    git config --global pull.rebase false && \
     cd /root && \
     git clone --depth 1 https://github.com/bebbo/amiga-gcc.git && \
     cd /root/amiga-gcc && \
