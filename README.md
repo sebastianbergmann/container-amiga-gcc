@@ -4,6 +4,7 @@
 
 A ready-to-use image built from this Dockerfile is available on [Docker Hub](https://hub.docker.com/r/sebastianbergmann/amiga-gcc/).
 
+More information can be found [here](https://amiga.sebastian-bergmann.de/presentations/2017/evoke/amiga-software-development-in-2017).
 
 ## "Hello world!" Example
 
