@@ -23,7 +23,10 @@ $repositories = [
 ];
 
 foreach ($repositories as $repository) {
-    print 'Checking ' . $repository . ' ... ';
+    printf(
+        'Checking %-26s ',
+        $repository . ' ...'
+    );
 
     $file = __DIR__ . '/.revisions/' . $repository;
     $old  = trim(file_get_contents($file)); 
