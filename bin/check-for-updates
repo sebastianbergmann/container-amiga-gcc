@@ -1,48 +1,91 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 $repositories = [
-    'bebbo/amiga-gcc',
-    'bebbo/amiga-netinclude',
-    'bebbo/binutils-gdb',
-    'bebbo/clib2',
-    'bebbo/fd2pragma',
-    'cahirwpz/fd2sfd',
-    'bebbo/gcc',
-    'bebbo/ira',
-    'bebbo/ixemul',
-    'jca02266/lha',
-    'bebbo/libdebug',
-    'bebbo/libnix',
-    'AmigaPorts/libSDL12',
-    'bebbo/newlib-cygwin',
-    'adtools/sfdc',
-    'leffmann/vasm',
-    'bebbo/vbcc',
-    'leffmann/vlink',
-    'bebbo/aros-stuff',
+    'bebbo/amiga-gcc' => 'master',
+    'bebbo/amiga-netinclude' => 'master',
+    'bebbo/binutils-gdb' => 'amiga',
+    'bebbo/clib2' => 'master',
+    'bebbo/fd2pragma' => 'master',
+    'cahirwpz/fd2sfd' => 'master',
+    'bebbo/gcc' => 'gcc-6-branch',
+    'bebbo/ira' => 'master',
+    'bebbo/ixemul' => 'master',
+    'jca02266/lha' => 'master',
+    'bebbo/libdebug' => 'master',
+    'bebbo/libnix' => 'master',
+    'AmigaPorts/libSDL12' => 'master',
+    'bebbo/newlib-cygwin' => 'amiga',
+    'adtools/sfdc' => 'master',
+    'leffmann/vasm' => 'master',
+    'bebbo/vbcc' => 'master',
+    'leffmann/vlink' => 'master',
+    'bebbo/aros-stuff' => 'master',
 ];
 
-foreach ($repositories as $repository) {
+foreach ($repositories as $repository => $branch) {
     printf(
         'Checking %-26s ',
         $repository . ' ...'
     );
 
-    $file = __DIR__ . '/.revisions/' . $repository;
-    $old  = trim(file_get_contents($file)); 
+    $file    = __DIR__ . '/.revisions/' . $repository;
+    $old     = trim(file_get_contents($file));
+    $commits = fetch_commits($repository, $branch);
+    $new     = $commits['0']['sha'];
 
-    $new = trim(
-        shell_exec(
-            'git ls-remote https://github.com/' . $repository . '.git | grep HEAD | awk \'{ print $1}\''
-        )
-    );
-
-    if ($old !== $new) {
-        file_put_contents($file, $new);
-
-        print 'updated' . PHP_EOL;
-    } else {
+    if ($old === $new) {
         print 'not updated' . PHP_EOL;
+
+        continue;
     }
+
+    file_put_contents($file, $new);
+
+    $numberOfCommitsSinceOld = 0;
+    $updatedPrinted          = false;
+
+    foreach ($commits as $commit) {
+        $numberOfCommitsSinceOld++;
+
+        if ($old === $commit['sha']) {
+            printf(
+                'updated (%d new commits)%s',
+                $numberOfCommitsSinceOld,
+                PHP_EOL
+            );
+
+            $updatedPrinted = true;
+
+            break;
+        }
+    }
+
+    if (!$updatedPrinted) {
+        print 'updated' . PHP_EOL;
+    }
+}
+
+function fetch_commits(string $repository, string $branch): array
+{
+    $options = [
+        'http' => [
+            'user_agent' => 'PHP ' . PHP_VERSION
+        ]
+    ];
+
+    $context = stream_context_create($options);
+
+    return json_decode(
+        file_get_contents(
+            sprintf(
+                'https://api.github.com/repos/%s/commits?sha=%s',
+                $repository,
+                $branch
+            ),
+            false,
+            $context
+        ),
+        true
+    );
 }
 
