@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="docker-amiga-gcc" default="build">
-    <!-- Set this to "docker" if you have/want to use Docker instead of Podman -->
-    <property name="docker-command" value="podman"/>
-
     <property name="test-directory" value="/tmp/docker-amiga-gcc-test"/>
 
     <target name="build">
-        <exec executable="${docker-command}" taskname="image-build">
+        <exec executable="podman" taskname="image-build">
             <arg value="build"/>
             <arg value="--pull"/>
             <arg value="--no-cache"/>
@@ -20,7 +17,7 @@
         <mkdir dir="${test-directory}"/>
         <copy file="${basedir}/test/hello.c" todir="${test-directory}"/>
 
-        <exec executable="${docker-command}" taskname="test-compile">
+        <exec executable="podman" taskname="test-compile">
             <arg value="run"/>
             <arg value="--rm"/>
             <arg value="--volume"/>
@@ -33,7 +30,7 @@
             <arg value="-noixemul"/>
         </exec>
 
-        <exec executable="${docker-command}" taskname="test-execute" outputproperty="hello.c">
+        <exec executable="podman" taskname="test-execute" outputproperty="hello.c">
             <arg value="run"/>
             <arg value="--rm"/>
             <arg value="--volume"/>

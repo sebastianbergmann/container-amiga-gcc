@@ -1,8 +1,8 @@
-# Dockerfile for AmigaOS Cross-Compiler Toolchain
+# Containerfile for AmigaOS Cross-Compiler Toolchain
 
-`Dockerfile` for [Stefan "Bebbo" Franke](https://github.com/bebbo)'s [amiga-gcc](https://github.com/bebbo/amiga-gcc) toolchain for Linux/AmigaOS cross-development.
+`Containerfile` for [Stefan "Bebbo" Franke](https://github.com/bebbo)'s [amiga-gcc](https://github.com/bebbo/amiga-gcc) toolchain for Linux/AmigaOS cross-development.
 
-A ready-to-use image built from this Dockerfile is available on [Docker Hub](https://hub.docker.com/r/sebastianbergmann/amiga-gcc/).
+A ready-to-use image built from this Containerfile is available on [Docker Hub](https://hub.docker.com/r/sebastianbergmann/amiga-gcc/).
 
 More information can be found [here](https://amiga.sebastian-bergmann.de/presentations/2017/evoke/amiga-software-development-in-2017).
 
@@ -53,14 +53,14 @@ int main()
 ### Compilation
 
 ```
-$ docker run -v $HOME:/host -it sebastianbergmann/amiga-gcc \
+$ podman run -v $HOME:/host -it sebastianbergmann/amiga-gcc \
   m68k-amigaos-gcc /host/hello.c -o /host/hello -noixemul
 ```
 
 
 ### Execution
 
-#### Docker-ized Emulation using FS-UAE
+#### Container-ized Emulation using FS-UAE
 
 The `docker-execute-amiga` script used below can be downloaded from [here](https://raw.githubusercontent.com/sebastianbergmann/docker-execute-amiga/master/docker-execute-amiga.sh).
 
@@ -71,10 +71,10 @@ $ docker-execute-amiga helloworld
 ![Screenshot](screenshot.png)
 
 
-#### Docker-ized Emulation using Virtual AmigaOS (vamos)
+#### Container-ized Emulation using Virtual AmigaOS (vamos)
 
 ```
-$ docker run -v $HOME:/host sebastianbergmann/amitools:latest \
+$ podman run -v $HOME:/host sebastianbergmann/amitools:latest \
   vamos -C 68020 /host/hello
 Hello world!
 ```
