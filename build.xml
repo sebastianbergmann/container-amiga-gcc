@@ -3,13 +3,13 @@
     <property name="test-directory" value="/tmp/docker-amiga-gcc-test"/>
 
     <target name="build">
-        <exec executable="podman" taskname="image-build">
+        <exec executable="buildah" taskname="image-build">
             <arg value="build"/>
-            <arg value="--pull"/>
             <arg value="--no-cache"/>
+            <arg value="--squash"/>
             <arg value="--tag"/>
-            <arg value="sebastianbergmann/amiga-gcc:latest"/>
-            <arg path="${basedir}"/>
+            <arg value="sebastianbergmann/amiga-gcc"/>
+            <arg path="${basedir}/Containerfile"/>
         </exec>
     </target>
 
